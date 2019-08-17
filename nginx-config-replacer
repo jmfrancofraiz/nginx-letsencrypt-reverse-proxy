@@ -16,4 +16,6 @@ if [ "${HSTS}" = "false" ]; then
   sed -e '/.*Strict-Transport-Security/ s/^#*/#/' -i /etc/nginx/sites-available/*
 fi
 
+sed -i "s#{{MAX_BODY_SIZE}}#${MAX_BODY_SIZE:-200m}#" /etc/nginx/sites-available/*
+
 exec "$@"

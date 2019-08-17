@@ -5,6 +5,8 @@ upstream backend {
 server {
   listen 443 ssl http2;
 
+  client_max_body_size {{MAX_BODY_SIZE}};
+
   ssl_certificate     /etc/letsencrypt/live/main/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/main/privkey.pem;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;

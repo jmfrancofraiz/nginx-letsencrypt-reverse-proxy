@@ -1,8 +1,8 @@
-[![logo](https://rawgit.com/michaelbaudino/nginx-letsencrypt-reverse-proxy/master/logo.svg)](https://github.com/michaelbaudino/nginx-letsencrypt-reverse-proxy)
+[![logo](https://rawgit.com/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/master/logo.svg)](https://github.com/jmfrancofraiz/nginx-letsencrypt-reverse-proxy)
 
-[![Docker Stars](https://img.shields.io/docker/stars/michaelbaudino/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/michaelbaudino/nginx-letsencrypt-reverse-proxy/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/michaelbaudino/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/michaelbaudino/nginx-letsencrypt-reverse-proxy/)
-[![Docker Automated build](https://img.shields.io/docker/automated/michaelbaudino/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/michaelbaudino/nginx-letsencrypt-reverse-proxy/)
+[![Docker Stars](https://img.shields.io/docker/stars/jmfrancofraiz/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jmfrancofraiz/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/)
+[![Docker Automated build](https://img.shields.io/docker/automated/jmfrancofraiz/nginx-letsencrypt-reverse-proxy.svg?style=flat-square)](https://hub.docker.com/r/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/)
 
 Easy-to-use Docker container with Nginx configured to force HTTPS (thanks to Let's Encrypt) to any given HTTP backend server (configured via the `$BACKEND` environment variable).
 
@@ -13,7 +13,7 @@ Easy-to-use Docker container with Nginx configured to force HTTPS (thanks to Let
 Before starting an instance of this container, you need to install Let's Encrypt certificates:
 ```
 docker run -p 80:80 -v letsencrypt-data:/etc/letsencrypt/ \
-  michaelbaudino/nginx-letsencrypt-reverse-proxy \
+  jmfrancofraiz/nginx-letsencrypt-reverse-proxy \
   letsencrypt-install --domain <example.com> --email <root@example.com>
 ```
 
@@ -23,7 +23,7 @@ docker run -p 80:80 -v letsencrypt-data:/etc/letsencrypt/ \
 
 To start an instance in foreground, use the following command:
 ```
-docker run -p 80:80 -p 443:443 -v letsencrypt-data:/etc/letsencrypt/ -e BACKEND="<backend_url>" michaelbaudino/nginx-letsencrypt-reverse-proxy
+docker run -p 80:80 -p 443:443 -v letsencrypt-data:/etc/letsencrypt/ -e BACKEND="<backend_url>" jmfrancofraiz/nginx-letsencrypt-reverse-proxy
 ```
 
 Where `<backend_url>` should be replaced by your application address [in Nginx format](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server), which is pretty much an URL without protocol (_e.g._ `some.backend.com:8080`) or a Unix socket prefixed with `unix:` (_e.g._ `unix:/var/run/backend.sock`).
@@ -39,6 +39,9 @@ You can set optional settings using the following environment variables:
 ```bash
 # Disable HTTPS Strict-Transport-Security (default: true)
 HSTS=false
+
+# Specify client max body size (default 200m)
+MAX_BODY_SIZE=10g
 ```
 
 ### Renew
@@ -60,7 +63,7 @@ volumes:
     driver: local
 services:
   nginx:
-    image: michaelbaudino/nginx-letsencrypt-reverse-proxy
+    image: jmfrancofraiz/nginx-letsencrypt-reverse-proxy
     ports:
       - "80:80"
       - "443:443"
@@ -107,7 +110,7 @@ docker-compose exec nginx letsencrypt-renew
 
 1. Clone this repository
 2. Do your changes
-3. Build with `docker build .`
+3. Build with `docker build . -t jmfrancofraiz/nginx-letsencrypt-reverse-proxy
 4. If other people might benefit your changes, please submit a pull request
 
 ### Staging Let's Encrypt server
@@ -126,6 +129,6 @@ Since the ACME protocol requires the use of port 80, there's no way to use anoth
 
 # License
 
-This code is distributed under the MIT license terms (see [LICENSE.md](https://github.com/michaelbaudino/nginx-letsencrypt-reverse-proxy/blob/master/LICENSE.md)).
+This code is distributed under the MIT license terms (see [LICENSE.md](https://github.com/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/blob/master/LICENSE.md)).
 
-Logos concatenated in [logo.svg](https://github.com/michaelbaudino/nginx-letsencrypt-reverse-proxy/blob/master/logo.svg) are trademarks of their respective owners ([Docker Inc.](https://www.docker.com/company), [Nginx Inc.](https://www.nginx.com/company/) and [Internet Security Research Group](https://letsencrypt.org/)).
+Logos concatenated in [logo.svg](https://github.com/jmfrancofraiz/nginx-letsencrypt-reverse-proxy/blob/master/logo.svg) are trademarks of their respective owners ([Docker Inc.](https://www.docker.com/company), [Nginx Inc.](https://www.nginx.com/company/) and [Internet Security Research Group](https://letsencrypt.org/)).
